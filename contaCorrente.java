@@ -1,65 +1,103 @@
-package contacorrente;
+package contaCorrente;
 
 public class contaCorrente {
     private String numeroConta;
     private String numeroAgencia;
     private String nomeCliente;
     private String dataNascimento;
-    private String saldo;
+    private double saldo;
 
-    public static void main(String[] args) {
 
-        contaCorrente conta = new contaCorrente();
-        conta.setnumeroConta("19344");
-        conta.setnumeroAgencia("77892");
-        conta.setnomeCliente("Gilvan da Silva Tolentono ");
-        conta.setdataNascimento("04/05/2005");
-        conta.setsaldo("30.000.00");
-
-        System.out.println("Conta: " + conta.getnumeroConta());
-        System.out.println("Agência: " + conta.getnumeroAgencia());
-        System.out.println("Cliente: " + conta.getnomeCliente());
-        System.out.println("Data de Nascimento: " + conta.getdataNascimento());
-        System.out.println("Saldo: " + conta.getsaldo());
+    public contaCorrente(String numeroConta, String numeroAgencia, String nomeCliente, String dataNascimento, double saldo) {
+        this.numeroConta = numeroConta;
+        this.numeroAgencia = numeroAgencia;
+        this.nomeCliente = nomeCliente;
+        this.dataNascimento = dataNascimento;
+        this.saldo = saldo;
     }
 
-    public String getnumeroConta() {
+
+
+    public String getNumeroConta() {
         return numeroConta;
     }
 
-    public void setnumeroConta(String numeroConta) {
+    public void setNumeroConta(String numeroConta) {
         this.numeroConta = numeroConta;
     }
 
-    public String getnumeroAgencia() {
+    public String getNumeroAgencia() {
         return numeroAgencia;
     }
 
-    public void setnumeroAgencia(String numeroAgencia) {
+    public void setNumeroAgencia(String numeroAgencia) {
         this.numeroAgencia = numeroAgencia;
     }
 
-    public String getnomeCliente() {
+    public String getNomeCliente() {
         return nomeCliente;
     }
 
-    public void setnomeCliente(String nomeCliente) {
+    public void setNomeCliente(String nomeCliente) {
         this.nomeCliente = nomeCliente;
     }
 
-    public String getdataNascimento() {
+    public String getDataNascimento() {
         return dataNascimento;
     }
 
-    public void setdataNascimento(String dataNascimento) {
+    public void setDataNascimento(String dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
 
-    public String getsaldo() {
+    public double getSaldo() {
         return saldo;
     }
 
-    public void setsaldo(String saldo) {
-        this.saldo = saldo;
+
+    public void sacar(double valor) {
+        if (valor > 0 && valor <= saldo) {
+            saldo -= valor;
+            System.out.println("saque realizado com sucesso😁. novo saldo: " + saldo);
+        } else {
+            System.out.println("saldo insuficiente para saque.");
+        }
+    }
+
+    public void transferir(double valor, contaCorrente destino) {
+        if (valor > 0 && valor <= saldo) {
+            saldo -= valor;
+            destino.depositar(valor);
+            System.out.println("transfereencia realizada com sucesso😁.");
+        } else {
+            System.out.println("saldo insuficiente para transferencia😒.");
+        }
+    }
+
+    public void depositar(double valor) {
+        if (valor > 0) {
+            saldo += valor;
+            System.out.println("deposito realizado com sucesso. novo saldo🤩: " + saldo);
+        } else {
+            System.out.println("Valor invalido para deposito😒.");
+        }
+    }
+
+    public void cancelarConta(String justificativa) {
+        System.out.println("conta cancelada. Justificativa: " + justificativa);
+    }
+
+    public void consultarSaldo() {
+        System.out.println("saldo atual: " + saldo);
+    }
+
+    public static void main(String[] args) {
+
+        contaCorrente conta = new contaCorrente("19344", "77892", "gilvan da silva tolentino", "04/05/2005", 30000.00);
+        conta.consultarSaldo();
+        conta.sacar(1000.00);
+        conta.transferir(20000.00, new contaCorrente("12345", "98765", "destinatario", "01/01/2000", 0.0));
+        conta.depositar(1000.00);
+        conta.cancelarConta("encerramento por mudança de banco🤬.");
     }
 }
